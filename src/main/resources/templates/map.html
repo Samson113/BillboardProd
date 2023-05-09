@@ -27,13 +27,8 @@
             style="background-color: black"
     >
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
-                <img
-                        src="/pics/svg/billboard.svg"
-                        alt="logo"
-                        width="50"
-                        style="width: 150px"
-                />
+            <a class="navbar-brand" href="main">
+                <img src="/pics/svg/billboard.svg" alt="logo" width="50" style="width: 150px" />
             </a>
             <button
                     class="navbar-toggler"
@@ -86,7 +81,7 @@
                         </div>
                         <input type="hidden" name="type" th:value="${prototype.type}">
                         <input type="hidden" name="address" th:value="${prototype.Address}">
-                        <input type="hidden" name="price" th:value="${prototype.price}">
+                        <input type="hidden" name="price" th:value="${prototype.price}" th:id="price+${iterstat.index+1}">
                         <input type="hidden" name="proId" th:value="${prototype.id}">
                         <div class="panel" th:id="'addressPanel'+${iterstat.index+1}">
                             <div class="flex-container">
@@ -320,6 +315,9 @@
         var startDate = document.getElementById("startDate" + id).value;
         var endDate = document.getElementById("endDate" + id).value;
         var warningMessage = document.getElementById("warning-message" + id);
+        const diff = Math.round((new Date(endDate).getTime() - new Date(startDate).getTime()) / (1000 * 60 * 60 * 24 * 30));
+        const price1 = document.getElementById("price" + id).value;
+        var price = diff * price1;
         form=document.getElementById(id);
         if (startDate === "" || endDate === "") {
             warningMessage.textContent =
@@ -331,18 +329,16 @@
                 "End date should be after start date";
             return;
         }
-        document.getElementById("modalInfo").innerHTML="Are you sure that you wanna buy billboard from "+startDate+" to "+endDate+" ?"
+        document.getElementById("modalInfo").innerHTML="Are you sure that you wanna buy billboard from "+startDate+" to "+endDate+" with price $"+price+" ?"
         modal.style.display="flex";
-
+        $('.yes-btn').click(function () {
+            document.getElementById("price" + id).value = price;
+            form.submit();
+        });
+        $('.no-btn').click(function () {
+            modal.style.display="none";
+        });
     }
-    $('.yes-btn').click(function () {
-
-        form.submit();
-    });
-    $('.no-btn').click(function () {
-
-        modal.style.display="none";
-    });
     function updateDateRange() {
         var startDate = document.getElementById("startDate").value;
         var endDate = document.getElementById("endDate").value;

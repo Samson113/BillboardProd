@@ -45,13 +45,14 @@
     </nav>
   </header>
 
+
   <div class="middle">
     <div class="orders_text">
       <h1><b>REQUESTS</b></h1>
     </div>
     <div class="main">
       <ul>
-        <form th:each="bill:${managerBills}" action="/request" method="post">
+        <form th:each="bill:${managerBills}" action="/request" method="post" class="reservation-form">
           <h6 class="name_person" th:text="${bill.getClientName()}" style="margin-left: 440px">Saken Amir</h6>
           <li class="label">
             <div class="ul_li_top">
@@ -62,8 +63,10 @@
                 <li>START DATE</li>
                 <li>FINISH DATE</li>
                 <li>
-                  <button type="button" id="myBtn" class="accept_block" name="button">
+                  <button type="submit" id="myBtn" class="accept_block" value="accept">
+                    <!--                    <input type="hidden" value="accept">-->
                     ACCEPT
+                    <!--                    <input type="hidden" name="button" value="accept">-->
                   </button>
                 </li>
               </ul>
@@ -71,60 +74,151 @@
             <div class="ul_li_bottom">
               <ul>
                 <li>
-                  <p th:text="${bill.getType().toUpperCase()}"></p>
+                  <p th:text="${bill.getType().toUpperCase()}">Small</p>
                 </li>
                 <li>
+                  <input type="hidden" name="button" id="buttonValue">
                   <input type="hidden" th:value="${bill.getId()}" name="id" />
-                  <p th:text="${bill.getAddress()}"></p>
+                  <p th:text="${bill.getAddress()}">Almaty, Abai 14</p>
                 </li>
                 <li>
-                  <p th:text="'$'+${bill.getPrice()}"></p>
+                  <p th:text="'$'+${bill.getPrice()}">$750</p>
                 </li>
                 <li>
-                  <p th:text="${bill.getStartDate1()}"></p>
+                  <p th:text="${bill.getStartDate1()}">04.01.2023</p>
                 </li>
                 <li>
-                  <p th:text="${bill.getEndDate1()}"></p>
+                  <p th:text="${bill.getEndDate1()}">04.05.2023</p>
                 </li>
                 <li>
-                  <button type="button" id="myBtn2" class="reject_block" name="button" >
+
+                  <button type="submit" id="myBtn2" class="reject_block" value="reject">
+                    <!--                    <input type="hidden" value="reject">-->
                     REJECT
+
                   </button>
                 </li>
               </ul>
             </div>
           </li>
-          <div class="site_container">
-            <div id="myModal" class="modal">
-              <div class="modal-content" style="height: 150px">
-                <p>Are you sure that you gonna accept this?</p>
-                <div class="modal_button">
-                  <button type="submit" class="green_button" name="button" value="accept">
-                    Yes
-                  </button>
-                  <button type="button" class="red_button">No</button>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div class="site_container">
-            <div id="myModal2" class="modal">
-              <div class="modal-content" style="height: 150px">
-                <p>Are you sure that you gonna reject this?</p>
-                <div class="modal_button">
-                  <button type="submit" class="green_button" name="button" value="reject">
-                    Yes
-                  </button>
-                  <button type="button" class="red_button2">No</button>
-                </div>
-              </div>
-            </div>
-          </div>
         </form>
       </ul>
     </div>
   </div>
+  <style>
+    #modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    #info {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 500px;
+      height: 400px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+    }
+
+    #info h1 {
+      font-size: 24px;
+      margin: 0;
+      text-align: center;
+      color: #333;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .yes-btn,
+    .no-btn {
+      margin: 0 10px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .yes-btn {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .yes-btn:hover {
+      background-color: #0062cc;
+    }
+
+    .no-btn {
+      background-color: gray;
+      color: #333;
+    }
+
+    .no-btn:hover {
+      background-color: gray;
+    }
+  </style>
+  <div id="modal">
+    <div id="info">
+      <h1 id="modalInfo">Are you sure that you wanna buy billboard from this date to this?</h1>
+      <div class="buttons">
+        <button class="yes-btn" onclick="yes()">Yes, I'm sure</button>
+        <button class="no-btn" onclick="no()">No, thanks</button>
+      </div>
+    </div>
+  </div>
+  <script>
+    var form;
+    var type;
+    var modal=document.getElementById("modal");
+    const forms = document.querySelectorAll('.reservation-form');
+    forms.forEach(form1 => {
+      form1.addEventListener('submit', (event) => {
+        type=event.submitter.value;
+        console.log(type)
+        document.getElementById("buttonValue").value=type;
+        event.preventDefault();
+
+        reserve(form1);
+
+      });
+
+    });
+
+    function reserve(form1) {
+      form=form1;
+
+      document.getElementById("modalInfo").innerHTML="Are you sure that you wanna "+type+" this billboard?"
+      modal.style.display="flex";
+
+
+    }
+    function yes(){
+      form.submit();
+
+    }
+    function no(){
+      console.log(1234)
+      modal.style.display="none";
+    }
+  </script>
   </body>
 <script>
   let modal = document.getElementById("myModal");
@@ -154,13 +248,8 @@
       modal.style.display = "none";
       document.body.classList.remove("modal_opened");
       document.querySelector(".site_overlay").remove();
-    } else if (event.target == modal2) {
-      modal2.style.display = "none";
-      document.body.classList.remove("modal_opened");
-      document.querySelector(".site_overlay").remove();
     }
   };
-
 
   btn2.onclick = function () {
     modal2.style.display = "block";
