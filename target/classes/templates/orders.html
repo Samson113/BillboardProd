@@ -56,6 +56,9 @@
     </header>
 
     <div class="middle">
+      <div class="orders_text">
+        <h1><b>ORDERS</b></h1>
+      </div>
       <form action="/search" method="post" class="searchf">
         <div class="form-group">
           <label for="clientName">Client Name:</label>
@@ -131,9 +134,6 @@
           vertical-align: middle;
         }
       </style>
-      <div class="orders_text">
-        <h1><b>ORDERS</b></h1>
-      </div>
       <table th:each="bill:${notManagerBills}" style="table-layout: fixed;">
         <hr style="color: white; width: 70%; margin: auto; margin-top: 10px; height: 2px;">
         <h6 class="name_person" th:text="${bill.getClientName()}"></h6>
