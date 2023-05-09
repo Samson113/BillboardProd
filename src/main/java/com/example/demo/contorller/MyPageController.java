@@ -31,6 +31,7 @@ public class MyPageController {
         String status3 = "reject";
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long clientId = ((User) authentication.getPrincipal()).getId();
+        String username = authentication.getName();
         List<Billboard> billboardAll = billboardRepo.findByClientId(clientId);
         List<Billboard> billboardsOn = billboardRepo.findByClientIdAndStatus(clientId, status1);
         List<Billboard> billboardsEX = billboardRepo.findByClientIdAndStatus(clientId, status2);
@@ -39,6 +40,7 @@ public class MyPageController {
         model.addAttribute("billboardsOn", billboardsOn);
         model.addAttribute("billboardsEx", billboardsEX);
         model.addAttribute("billboardsRE", billboardsRE);
+        model.addAttribute("username", username);
         return "profile";
     }
 }

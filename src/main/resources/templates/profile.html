@@ -41,12 +41,14 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="request">Requests</a>
+            <a class="nav-link" href="main">Billboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#">Orders</a>
+            <a class="nav-link" href="pricing">Buy Now</a>
           </li>
         </ul>
+        <a class="user_logo" th:text="${username}">
+        </a>
         <form th:action="@{/logout}" method="post">
           <input type="submit" value="Sign Out"/>
         </form>
@@ -82,25 +84,6 @@
       <td th:if="${bill.getStatus().equals('expired')}" style="color: #2f4e5e" th:text="${bill.getInteractionDay()}"></td>
     </tr>
   </table>
-
-  <!--      <table class="reject">-->
-  <!--        <tr>-->
-  <!--          <th>TYPE</th>-->
-  <!--          <th>LOCATION</th>-->
-  <!--          <th>PRICE</th>-->
-  <!--          <th>START DATE</th>-->
-  <!--          <th>FINISH DATE</th>-->
-  <!--          <th style="color: #f12330">REJECTED DATE</th>-->
-  <!--        </tr>-->
-  <!--        <tr>-->
-  <!--          <td>MIDDLE</td>-->
-  <!--          <td>Almaty, Abai 14</td>-->
-  <!--          <td>1200$</td>-->
-  <!--          <td>04.01.2023</td>-->
-  <!--          <td>05.02.2023</td>-->
-  <!--          <td style="color: #f12330">29.12.2022</td>-->
-  <!--        </tr>-->
-  <!--      </table>-->
 </div>
 </body>
 <script src="https://use.fontawesome.com/df966d76e1.js"></script>

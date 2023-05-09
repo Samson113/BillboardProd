@@ -55,7 +55,6 @@ public class BillboardController {
                 prototypesInSite.add(proto);
             }
         }
-        // Заполняем списки объявлений по адресам
         for (Billboard billboard : billboards) {
             String address = billboard.getAddress();
             for (Prototype prototype : prototypesInSite) {
@@ -65,7 +64,7 @@ public class BillboardController {
                 }
             }
         }
-
+        model.addAttribute("errorMessage","");
         model.addAttribute("billboards", billboards);
         model.addAttribute("prototypes", prototypesInSite);
 
@@ -82,32 +81,53 @@ public class BillboardController {
                          @RequestParam String start,
                          @RequestParam String end,
                          Model model) {
+        Iterable<Billboard> billboards1 = billboardRepo.findAll();
+        Iterable<Prototype> prototypes1 = prototypeRepo.findAll();
+        ArrayList<Prototype> prototypesInSite1=new ArrayList<>();
+        for (Prototype proto:
+                prototypes1) {
+            if (proto.type.equals(type)){
+                prototypesInSite1.add(proto);
+            }
+        }
+        for (Billboard billboard : billboards1) {
+            String address1 = billboard.getAddress();
+            for (Prototype prototype : prototypesInSite1) {
+                if (!prototype.getList().contains(billboard)&&prototype.Address.equals(address1)&&!billboard.getStatus().equals("reject")&&!billboard.getStatus().equals("expired")) {
+                    prototype.getList().add(billboard);
+                    break;
+                }
+            }
+        }
+
+        model.addAttribute("billboards", billboards1);
+        model.addAttribute("prototypes", prototypesInSite1);
         if (start.length()==0||end.length()==0){
-            session.setAttribute("errorMessage","Error: fill in all fields");
-            return "redirect:/bulletin";
+            model.addAttribute("errorMessage","Error: fill in all fields");
+            return "map";
         }
         System.out.println(session.getAttribute("prototypes"));
         LocalDate startDate = LocalDate.of(Integer.valueOf(start.substring(0,4)), Integer.valueOf(start.substring(5,7)), 1);
         LocalDate endDate = LocalDate.of(Integer.valueOf(end.substring(0,4)), Integer.valueOf(end.substring(5,7)), 1);
         if (endDate.isBefore(startDate)){
-            session.setAttribute("errorMessage","Finish date must be after start date");
-            return "redirect:/bulletin";
+            model.addAttribute("errorMessage","Finish date must be after start date");
+            return "map";
         }
 
         if (startDate.isBefore(LocalDate.now())){
-            session.setAttribute("errorMessage","Start date must be after current date");
-            return "redirect:/bulletin";
+            model.addAttribute("errorMessage","Start date must be after current date");
+            return "map";
         }
         long monthsBetween = ChronoUnit.MONTHS.between(
                 startDate,
                 endDate);
         if (monthsBetween>12){
-            session.setAttribute("errorMessage","Много выбрал");
-            return "redirect:/bulletin";
+            model.addAttribute("errorMessage","Много выбрал");
+            return "map";
         }
         if (endDate.isAfter(LocalDate.now().plusMonths(13))){
-            session.setAttribute("errorMessage","кароче не выделывайся через год нельязя");
-            return "redirect:/bulletin";
+            model.addAttribute("errorMessage","кароче не выделывайся через год нельязя");
+            return "map";
         }
         Iterable<Billboard> billboards = billboardRepo.findAll();
         Iterable<Prototype> prototypes = prototypeRepo.findAll();
@@ -118,7 +138,6 @@ public class BillboardController {
                 prototypesInSite.add(proto);
             }
         }
-        // Заполняем списки объявлений по адресам
         for (Billboard billboard : billboards) {
             String address1 = billboard.getAddress();
             for (Prototype prototype : prototypesInSite) {
@@ -131,17 +150,15 @@ public class BillboardController {
         Optional<Prototype> prototypeOptional = prototypeRepo.findById(proId);
         Prototype prototype = prototypeOptional.get();
         for (Billboard bill:
-            prototype.list) {
-//                System.out.println(startDate.isEqual(bill.getStartDate1()));
-                if(endDate.isEqual(bill.getEndDate1())||(startDate.isEqual(bill.getStartDate1())||(startDate.isAfter(bill.getStartDate1())&&startDate.isBefore(bill.getEndDate1()))||(endDate.isAfter(bill.getStartDate1())&&endDate.isBefore(bill.getEndDate1())))){
-                session.setAttribute("errorMessage","Your range intersects with another");
-                return "redirect:/bulletin";
+                prototype.list) {
+            if(endDate.isEqual(bill.getEndDate1())||(startDate.isEqual(bill.getStartDate1())||(startDate.isAfter(bill.getStartDate1())&&startDate.isBefore(bill.getEndDate1()))||(endDate.isAfter(bill.getStartDate1())&&endDate.isBefore(bill.getEndDate1())))){
+                model.addAttribute("errorMessage","Your range intersects with another");
+                return "map";
             }
         }
         if (prototype.list.size() >= 11) {
             model.addAttribute("errorMessage", "Maximum number of seats reserved");
         } else {
-            // Create a new billboard and add it to the prototype
             String status = "onReview";
             boolean inWork = true;
             Billboard billboard = new Billboard(address, price, status, startDate, endDate, user, inWork);
@@ -150,8 +167,8 @@ public class BillboardController {
             prototype.list.add(billboard);
             prototypeRepo.save(prototype);
         }
-        session.setAttribute("errorMessage","");
-        return "redirect:/bulletin";
+        model.addAttribute("errorMessage","");
+        return "map";
     }
 
     @GetMapping("/BuyBulletin")
