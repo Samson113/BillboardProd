@@ -53,7 +53,7 @@
     <div class="main">
       <ul>
         <form th:each="bill:${managerBills}" action="/request" method="post" class="reservation-form">
-          <h6 class="name_person" th:text="${bill.getClientName()}" style="margin-left: 440px">Saken Amir</h6>
+          <h6 class="name_person" th:text="${bill.getClientName()}" style="margin-left: 440px"></h6>
           <li class="label">
             <div class="ul_li_top">
               <ul>
@@ -64,9 +64,7 @@
                 <li>FINISH DATE</li>
                 <li>
                   <button type="submit" id="myBtn" class="accept_block" value="accept">
-                    <!--                    <input type="hidden" value="accept">-->
                     ACCEPT
-                    <!--                    <input type="hidden" name="button" value="accept">-->
                   </button>
                 </li>
               </ul>
@@ -74,7 +72,7 @@
             <div class="ul_li_bottom">
               <ul>
                 <li>
-                  <p th:text="${bill.getType().toUpperCase()}">Small</p>
+                  <p th:text="${bill.getType().toUpperCase()}"></p>
                 </li>
                 <li>
                   <input type="hidden" name="button" id="buttonValue">

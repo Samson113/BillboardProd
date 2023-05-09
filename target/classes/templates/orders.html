@@ -25,7 +25,7 @@
       >
         <div class="container-fluid">
           <a class="navbar-brand" href="main">
-            <img src="/pics/ico/icon.ico" width="50" />
+            <img src="/pics/svg/billboard.svg" alt="logo" width="50" style="width: 150px" />
           </a>
           <button
             class="navbar-toggler"
@@ -60,6 +60,8 @@
         <h1><b>ORDERS</b></h1>
       </div>
       <table th:each="bill:${notManagerBills}" style="table-layout: fixed;">
+        <hr style="color: white; width: 70%; margin: auto; margin-top: 10px; height: 2px;">
+        <h6 class="name_person" th:text="${bill.getClientName()}"></h6>
         <tr>
           <th>TYPE</th>
           <th>LOCATION</th>
@@ -82,25 +84,6 @@
           <td th:if="${bill.getStatus().equals('expired')}" style="color: #2f4e5e" th:text="${bill.getInteractionDay()}"></td>
         </tr>
       </table>
-
-<!--      <table class="reject">-->
-<!--        <tr>-->
-<!--          <th>TYPE</th>-->
-<!--          <th>LOCATION</th>-->
-<!--          <th>PRICE</th>-->
-<!--          <th>START DATE</th>-->
-<!--          <th>FINISH DATE</th>-->
-<!--          <th style="color: #f12330">REJECTED DATE</th>-->
-<!--        </tr>-->
-<!--        <tr>-->
-<!--          <td>MIDDLE</td>-->
-<!--          <td>Almaty, Abai 14</td>-->
-<!--          <td>1200$</td>-->
-<!--          <td>04.01.2023</td>-->
-<!--          <td>05.02.2023</td>-->
-<!--          <td style="color: #f12330">29.12.2022</td>-->
-<!--        </tr>-->
-<!--      </table>-->
     </div>
   </body>
   <script src="https://use.fontawesome.com/df966d76e1.js"></script>
