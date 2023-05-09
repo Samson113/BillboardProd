@@ -56,6 +56,81 @@
     </header>
 
     <div class="middle">
+      <form action="/search" method="post" class="searchf">
+        <div class="form-group">
+          <label for="clientName">Client Name:</label>
+          <input type="text" id="clientName" name="clientName" class="form-control" placeholder="Enter client name">
+        </div>
+        <div class="form-group">
+          <label for="address">Address:</label>
+          <input type="text" id="address" name="address" class="form-control" placeholder="Enter address">
+        </div>
+        <div class="form-group">
+          <label for="price">Price:</label>
+          <select id="price" name="price" class="form-control">
+            <option value="">Any</option>
+            <option value="100">$100</option>
+            <option value="200">$200</option>
+            <option value="300">$300</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="type">Type:</label>
+          <select id="type" name="type" class="form-control">
+            <option value="">Any</option>
+            <option value="apartment">Apartment</option>
+            <option value="house">House</option>
+            <option value="office">Office</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="startDate">Start Date:</label>
+          <input type="month" id="startDate" name="startDate" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="endDate">End Date:</label>
+          <input type="month" id="endDate" name="endDate" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="status">Status:</label>
+          <select id="status" name="status" class="form-control">
+            <option value="">Any</option>
+            <option value="accept">Accepted</option>
+            <option value="reject">Rejected</option>
+            <option value="expired">Expired</option>
+          </select>
+        </div>
+        <div class="form-group1">>
+          <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+      </form>
+      <style>
+        .searchf{
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          margin: 0 auto;
+        }
+        .form-group {
+          color: white;
+          display: inline-block;
+          margin-right: 10px;
+          vertical-align: middle;
+        }
+        .form-group1 {
+          display: inline-block;
+          margin-right: 10px;
+          vertical-align: baseline;
+          margin-top: 20px;
+        }
+        .form-control {
+          margin: auto;
+          display: inline-block;
+          margin-right: 10px;
+          vertical-align: middle;
+        }
+      </style>
       <div class="orders_text">
         <h1><b>ORDERS</b></h1>
       </div>
