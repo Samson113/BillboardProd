@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.Repo.BillboardRepo;
 import com.example.demo.models.Billboard;
+import com.example.demo.models.User;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.Predicate;
 
+import javax.persistence.criteria.*;
 
 
 @Service
@@ -65,4 +65,47 @@ public class BillboardService {
         }
         return searchResults;
     }
+//public List<Billboard> searchItems(String username, String address, String price, String type,
+//                                   LocalDate startDate, LocalDate endDate, String status) {
+//    CriteriaBuilder cb = billboardRepo.getCriteriaBuilder();
+//    CriteriaQuery<Billboard> query = cb.createQuery(Billboard.class);
+//    Root<Billboard> root = query.from(Billboard.class);
+//
+//    List<Predicate> predicates = new ArrayList<>();
+//
+//    // Добавляем условия поиска в список предикатов
+//    if (username != null && !username.isEmpty()) {
+//        Join<Billboard, User> userJoin = root.join("client");
+//        predicates.add(cb.equal(userJoin.get("username"), username));
+//    }
+//
+//    if (address != null && !address.isEmpty()) {
+//        predicates.add(cb.equal(root.get("address"), address));
+//    }
+//
+//    if (price != null && !price.isEmpty()) {
+//        predicates.add(cb.equal(root.get("price"), price));
+//    }
+//
+//    if (type != null && !type.isEmpty()) {
+//        predicates.add(cb.equal(root.get("type"), type));
+//    }
+//
+//    if (startDate != null) {
+//        predicates.add(cb.greaterThanOrEqualTo(root.get("startDate1"), startDate));
+//    }
+//
+//    if (endDate != null) {
+//        predicates.add(cb.lessThanOrEqualTo(root.get("endDate1"), endDate));
+//    }
+//
+//    if (status != null && !status.isEmpty()) {
+//        predicates.add(cb.equal(root.get("status"), status));
+//    }
+//
+//    // Собираем все предикаты с помощью логического И
+//    query.where(cb.and(predicates.toArray(new Predicate[0])));
+//
+//    return billboardRepo.findAll(query);
+//}
 }

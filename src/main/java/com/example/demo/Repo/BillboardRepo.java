@@ -7,8 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
-
-public interface BillboardRepo extends CrudRepository<Billboard, Long> {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+public interface BillboardRepo extends JpaRepository<Billboard, Long> {
     @Query("SELECT COUNT(b) FROM Billboard b WHERE b.status = :status AND b.inWork = true")
     int countByStatusAndInWorkIsTrue(@Param("status") String status);
     @Query("SELECT b FROM Billboard b WHERE b.status = :status")
