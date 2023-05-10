@@ -58,8 +58,6 @@ public class ManagerController {
         bill1.setStatus(button);
         bill1.setInteractionDay(LocalDate.now());
         billboardRepo.save(bill1);
-//        System.out.println(id+" "+button);
-
         return "redirect:/request";
     }
 
@@ -78,4 +76,25 @@ public class ManagerController {
         return "orders";
     }
 
+    @PostMapping("/searchOrd")
+    public String searchOrd(@RequestParam(value = "username", required = false) String username,
+                            @RequestParam(value = "address", required = false) String address,
+                            @RequestParam(value = "price", required = false) String price,
+                            @RequestParam(value = "type", required = false) String type,
+                            @RequestParam(value = "startDate", required = false) String startDate,
+                            @RequestParam(value = "endDate", required = false) String endDate,
+                            @RequestParam(value = "status", required = false) String status,
+                            Model model) {
+        LocalDate startDate1 = null;
+        if (startDate != null && !startDate.isEmpty()) {
+            startDate1 = LocalDate.of(Integer.parseInt(startDate.substring(0, 4)), Integer.parseInt(startDate.substring(5, 7)), 1);
+        }
+        LocalDate endDate1 = null;
+        if (endDate != null && !endDate.isEmpty()) {
+            endDate1 = LocalDate.of(Integer.parseInt(endDate.substring(0, 4)), Integer.parseInt(endDate.substring(5, 7)), 1);
+        }
+        List<Billboard> searchResults = billboardService.searchItems(username, address, price, type, startDate1, endDate1, status);
+        model.addAttribute("searchResults", searchResults);
+        return "orders";
+    }
 }

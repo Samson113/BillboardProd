@@ -122,11 +122,11 @@ public class BillboardController {
                 startDate,
                 endDate);
         if (monthsBetween>12){
-            model.addAttribute("errorMessage","Много выбрал");
+            model.addAttribute("errorMessage","Maximum month amount reached pleas select 12 or least");
             return "map";
         }
         if (endDate.isAfter(LocalDate.now().plusMonths(13))){
-            model.addAttribute("errorMessage","кароче не выделывайся через год нельязя");
+            model.addAttribute("errorMessage","The maximum rental period is 12 months");
             return "map";
         }
         Iterable<Billboard> billboards = billboardRepo.findAll();

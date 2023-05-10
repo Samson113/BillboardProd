@@ -59,7 +59,7 @@
       <div class="orders_text">
         <h1><b>ORDERS</b></h1>
       </div>
-      <form action="searchOrd" method="post" class="searchf">
+      <form action="searchOrd" method="post" class="searchf" onsubmit="return validateForm();">
         <div class="form-group">
           <label for="clientName">Client Name:</label>
           <input type="text" id="clientName" name="clientName" class="form-control" placeholder="Enter client name">
@@ -72,18 +72,20 @@
           <label for="price">Price:</label>
           <select id="price" name="price" class="form-control">
             <option value="">Any</option>
-            <option value="100">$100</option>
-            <option value="200">$200</option>
-            <option value="300">$300</option>
+            <option value="750">$750</option>
+            <option value="1200">$1200</option>
+            <option value="3600">$3600</option>
+            <option value="5000">$5000</option>
           </select>
         </div>
         <div class="form-group">
           <label for="type">Type:</label>
           <select id="type" name="type" class="form-control">
             <option value="">Any</option>
-            <option value="apartment">Apartment</option>
-            <option value="house">House</option>
-            <option value="office">Office</option>
+            <option value="small">small</option>
+            <option value="medium">medium</option>
+            <option value="big">big</option>
+            <option value="large">large</option>
           </select>
         </div>
         <div class="form-group">
@@ -135,6 +137,31 @@
           vertical-align: middle;
         }
       </style>
+      <table th:each="sear:${searchResults}" style="table-layout: fixed;">
+        <hr style="color: white; width: 70%; margin: auto; margin-top: 10px; height: 2px;">
+        <h6 class="name_person" th:text="${sear.getClientName()}"></h6>
+        <tr>
+          <th>TYPE</th>
+          <th>LOCATION</th>
+          <th>PRICE</th>
+          <th>START DATE</th>
+          <th>FINISH DATE</th>
+
+          <th style="color: #02c839" th:if="${sear.getStatus().equals('accept')}">ACCEPTED DATE</th>
+          <th style="color: #f12330" th:if="${sear.getStatus().equals('reject')}">REJECTED DATE</th>
+          <th style="color: #2f4e5e" th:if="${sear.getStatus().equals('expired')}">EXPIRATION DATE</th>
+        </tr>
+        <tr>
+          <td th:text="${sear.getType().toUpperCase()}"></td>
+          <td th:text="${sear.getAddress()}"></td>
+          <td th:text="${sear.getPrice()}+'$'" ></td>
+          <td th:text="${sear.getStartDate1()}"></td>
+          <td th:text="${sear.getEndDate1()}"></td>
+          <td th:if="${sear.getStatus().equals('accept')}" style="color: #02c839" th:text="${sear.getInteractionDay()}"></td>
+          <td th:if="${sear.getStatus().equals('reject')}" style="color: #f12330" th:text="${sear.getInteractionDay()}"></td>
+          <td th:if="${sear.getStatus().equals('expired')}" style="color: #2f4e5e" th:text="${sear.getInteractionDay()}"></td>
+        </tr>
+      </table>
       <table th:each="bill:${notManagerBills}" style="table-layout: fixed;">
         <hr style="color: white; width: 70%; margin: auto; margin-top: 10px; height: 2px;">
         <h6 class="name_person" th:text="${bill.getClientName()}"></h6>
@@ -201,5 +228,19 @@
     navbarToggler.addEventListener("click", () => {
       navbarCollapse.classList.toggle("show");
     });
+    function validateForm() {
+      var clientName = document.getElementById("clientName").value;
+      var address = document.getElementById("address").value;
+      var price = document.getElementById("price").value;
+      var type = document.getElementById("type").value;
+      var startDate = document.getElementById("startDate").value;
+      var endDate = document.getElementById("endDate").value;
+      var status = document.getElementById("status").value;
+
+      if (clientName === "" && address === "" && price === "" && type === "" && startDate === "" && endDate === "" && status === "") {
+        alert("Please fill in at least one field.");
+        return false;
+      }
+    }
   </script>
 </html>
