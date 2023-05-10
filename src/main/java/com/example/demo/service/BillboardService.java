@@ -42,24 +42,71 @@ public class BillboardService {
 
         if (address != null && !address.isEmpty()) {
             searchResults.addAll(billboardRepo.findByAddress(address));
+        } else {
+            searchResults.addAll(billboardRepo.findAll());
         }
 
         if (price != null && !price.isEmpty()) {
-            searchResults.retainAll(billboardRepo.findByPrice(price));
+            List<Billboard> priceResults = billboardRepo.findByPrice(price);
+            if (!searchResults.isEmpty()) {
+                searchResults.retainAll(priceResults);
+            } else {
+                searchResults.addAll(priceResults);
+            }
         }
 
         if (type != null && !type.isEmpty()) {
-            searchResults.retainAll(billboardRepo.findByType(type));
+            List<Billboard> typeResults = billboardRepo.findByType(type);
+            if (!searchResults.isEmpty()) {
+                searchResults.retainAll(typeResults);
+            } else {
+                searchResults.addAll(typeResults);
+            }
         }
 
         if (startDate1 != null && endDate1 != null) {
-            searchResults.retainAll(billboardRepo.findByStartDateAndEndDate(startDate1, endDate1));
+            List<Billboard> dateResults = billboardRepo.findByStartDateAndEndDate(startDate1, endDate1);
+            if (!searchResults.isEmpty()) {
+                searchResults.retainAll(dateResults);
+            } else {
+                searchResults.addAll(dateResults);
+            }
         }
 
         if (status != null && !status.isEmpty()) {
-            searchResults.retainAll(billboardRepo.findByStatus(status));
+            List<Billboard> statusResults = billboardRepo.findByStatus(status);
+            if (!searchResults.isEmpty()) {
+                searchResults.retainAll(statusResults);
+            } else {
+                searchResults.addAll(statusResults);
+            }
         }
 
         return searchResults;
     }
+//    public List<Billboard> searchItems(String username, String address, String price, String type, LocalDate startDate1, LocalDate endDate1, String status) {
+//        List<Billboard> searchResults = new ArrayList<>();
+//
+//        if (address != null && !address.isEmpty()) {
+//            searchResults.addAll(billboardRepo.findByAddress(address));
+//        }
+//
+//        if (price != null && !price.isEmpty()) {
+//            searchResults.retainAll(billboardRepo.findByPrice(price));
+//        }
+//
+//        if (type != null && !type.isEmpty()) {
+//            searchResults.retainAll(billboardRepo.findByType(type));
+//        }
+//
+//        if (startDate1 != null && endDate1 != null) {
+//            searchResults.retainAll(billboardRepo.findByStartDateAndEndDate(startDate1, endDate1));
+//        }
+//
+//        if (status != null && !status.isEmpty()) {
+//            searchResults.retainAll(billboardRepo.findByStatus(status));
+//        }
+//
+//        return searchResults;
+//    }
 }

@@ -26,20 +26,20 @@ public class MyPageController {
     @GetMapping("/myPage")
     public String mypage(Model model){
         billboardService.updateExpiredStatus();
-        String status1 = "accept";
-        String status2 = "expired";
-        String status3 = "reject";
+//        String status1 = "accept";
+//        String status2 = "expired";
+//        String status3 = "reject";
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Long clientId = ((User) authentication.getPrincipal()).getId();
         String username = authentication.getName();
         List<Billboard> billboardAll = billboardRepo.findByClientId(clientId);
-        List<Billboard> billboardsOn = billboardRepo.findByClientIdAndStatus(clientId, status1);
-        List<Billboard> billboardsEX = billboardRepo.findByClientIdAndStatus(clientId, status2);
-        List<Billboard> billboardsRE = billboardRepo.findByClientIdAndStatus(clientId, status3);
+//        List<Billboard> billboardsOn = billboardRepo.findByClientIdAndStatus(clientId, status1);
+//        List<Billboard> billboardsEX = billboardRepo.findByClientIdAndStatus(clientId, status2);
+//        List<Billboard> billboardsRE = billboardRepo.findByClientIdAndStatus(clientId, status3);
         model.addAttribute("billboardAll", billboardAll);
-        model.addAttribute("billboardsOn", billboardsOn);
-        model.addAttribute("billboardsEx", billboardsEX);
-        model.addAttribute("billboardsRE", billboardsRE);
+//        model.addAttribute("billboardsOn", billboardsOn);
+//        model.addAttribute("billboardsEx", billboardsEX);
+//        model.addAttribute("billboardsRE", billboardsRE);
         model.addAttribute("username", username);
         return "profile";
     }
