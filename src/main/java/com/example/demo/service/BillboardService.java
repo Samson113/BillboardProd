@@ -40,72 +40,26 @@ public class BillboardService {
     public List<Billboard> searchItems(String username, String address, String price, String type, LocalDate startDate1, LocalDate endDate1, String status) {
         List<Billboard> searchResults = new ArrayList<>();
 
-        if (username != null && !username.isEmpty()) {
-            searchResults.addAll(billboardRepo.findByClientUsername(username));
-        }
-
         if (address != null && !address.isEmpty()) {
             searchResults.addAll(billboardRepo.findByAddress(address));
         }
 
         if (price != null && !price.isEmpty()) {
-            searchResults.addAll(billboardRepo.findByPrice(price));
+            searchResults.retainAll(billboardRepo.findByPrice(price));
         }
 
         if (type != null && !type.isEmpty()) {
-            searchResults.addAll(billboardRepo.findByType(type));
+            searchResults.retainAll(billboardRepo.findByType(type));
         }
 
         if (startDate1 != null && endDate1 != null) {
-            searchResults.addAll(billboardRepo.findByStartDateAndEndDate(startDate1, endDate1));
+            searchResults.retainAll(billboardRepo.findByStartDateAndEndDate(startDate1, endDate1));
         }
 
         if (status != null && !status.isEmpty()) {
-            searchResults.addAll(billboardRepo.findByStatus(status));
+            searchResults.retainAll(billboardRepo.findByStatus(status));
         }
+
         return searchResults;
     }
-//public List<Billboard> searchItems(String username, String address, String price, String type,
-//                                   LocalDate startDate, LocalDate endDate, String status) {
-//    CriteriaBuilder cb = billboardRepo.getCriteriaBuilder();
-//    CriteriaQuery<Billboard> query = cb.createQuery(Billboard.class);
-//    Root<Billboard> root = query.from(Billboard.class);
-//
-//    List<Predicate> predicates = new ArrayList<>();
-//
-//    // Добавляем условия поиска в список предикатов
-//    if (username != null && !username.isEmpty()) {
-//        Join<Billboard, User> userJoin = root.join("client");
-//        predicates.add(cb.equal(userJoin.get("username"), username));
-//    }
-//
-//    if (address != null && !address.isEmpty()) {
-//        predicates.add(cb.equal(root.get("address"), address));
-//    }
-//
-//    if (price != null && !price.isEmpty()) {
-//        predicates.add(cb.equal(root.get("price"), price));
-//    }
-//
-//    if (type != null && !type.isEmpty()) {
-//        predicates.add(cb.equal(root.get("type"), type));
-//    }
-//
-//    if (startDate != null) {
-//        predicates.add(cb.greaterThanOrEqualTo(root.get("startDate1"), startDate));
-//    }
-//
-//    if (endDate != null) {
-//        predicates.add(cb.lessThanOrEqualTo(root.get("endDate1"), endDate));
-//    }
-//
-//    if (status != null && !status.isEmpty()) {
-//        predicates.add(cb.equal(root.get("status"), status));
-//    }
-//
-//    // Собираем все предикаты с помощью логического И
-//    query.where(cb.and(predicates.toArray(new Predicate[0])));
-//
-//    return billboardRepo.findAll(query);
-//}
 }
